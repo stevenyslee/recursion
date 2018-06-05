@@ -4,34 +4,26 @@
 // };
 
 // But instead we're going to implement it from scratch:
-// var getElementsByClassName = function(className) {
-// 	let array = [];
-//   if( this.childNodes ){
-//   	for( let i = 0; i < this.childNodes; i++ ){
-//   		let childNode = this.childNodes[i];
-//   		if( this.childNodes[i].className === className ){
-//   			array.push(this.childNodes[i]);
-//   		}
-//   		this.childNodes[i].getElementsByClassName(className);
-//   	}
-//   } else {
-// 		if( this.className === className ){
-// 				array.push(this);
-// 		}
-// 		return;
-//   }
-//   return;
-// };
 
 var getElementsByClassName = function(className) {
 	let array = [];
-	if( this.className === className ){
-		array.push(this);
-	}
-  if( this.childNodes ){
-  	for( let i = 0; i < this.childNodes; i++ ){
-  		this.childNodes[i].getElementsByClassName(className);
-  	}
-  }
-  return;
+
+	function checkNode(node){
+		if( node.classList ){
+			if( (node.classList).contains(className) ){
+				array.push(node);
+			}
+		}
+		if( node.childNodes.length > 0 ){
+			for( let i = 0; i < node.childNodes.length; i++ ){
+				checkNode(node.childNodes[i]);
+			}
+			return;
+		}
+		return;
+	};
+
+  checkNode(document.body);
+  return array;
 };
+
